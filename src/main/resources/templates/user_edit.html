@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+
+<body>
+    <div th:insert="layout :: header"></div>
+    <div th:insert="layout :: hamburger"></div>
+    <div th:insert="layout :: sidebar"></div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header text-center">
+                        <strong style="font-size: 24px;">編集画面</strong>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/user/update/{id}(id=${user.id})}" th:object="${user}" method="post">
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="form-group">
+                                <label for="username">ユーザ名:</label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email">メールアドレス:</label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="password">パスワード:</label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="role">切替:</label>
+                                <select class="form-select" id="role" th:field="*{role}">
+                                    <option value="ADMIN">Admin</option>
+                                    <option value="USER">User</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">更新</button>
+                    <a th:href="@{/users}" class="btn btn-secondary">戻る</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:replace="layout :: script"></script>
+</body>
+</html>
+

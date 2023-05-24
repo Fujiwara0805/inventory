@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+<body>
+    <div th:insert="layout :: header"></div>
+    <div th:insert="layout :: hamburger"></div>
+    <div th:insert="layout :: sidebar"></div>
+
+    <div class="container mt-5">
+        <div class="mt-3">
+            <strong style="font-size: 24px; border: 1px solid black; padding: 5px;">仕入先一覧</strong>
+        </div>
+        <table class="table table-hover mt-4">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>メーカー名</th>
+                <th>電話番号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="supplier : ${suppliers}" th:href="@{'/suppliers/' + ${supplier.id}}">
+                <td th:text="${supplier.id}"></td>
+                <td th:text="${supplier.name}"></td>
+                <td th:text="${supplier.phone}"></td>
+                <td>
+                    <a class="btn btn-info btn-sm" th:href="@{/supplier/{id}(id=${supplier.id})}">詳細</a>
+                    <a class="btn btn-warning btn-sm" th:href="@{/supplier/edit/{id}(id=${supplier.id})}">編集</a>
+                    <button class="btn btn-danger btn-sm" th:data-supplier-id="${supplier.id}" onclick="deleteSupplier(this)">削除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="my-4">
+            <a th:href="@{/suppliers/create}" class="btn btn-primary">追加</a>
+            <a class="btn btn-secondary" th:href="@{/dashboard}">戻る</a>
+        </div>
+    </div>
+    <script th:replace="layout :: script"></script>
+    <script src="/javascript/supplier.js"></script>
+</body>
+</html>

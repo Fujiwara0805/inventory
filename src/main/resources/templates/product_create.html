@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout :: head"></head>
+  <body>
+    <div th:insert="layout :: header"></div>
+    <div th:insert="layout :: hamburger"></div>
+    <div th:insert="layout :: sidebar"></div>
+
+    <div class="container">
+      <div class="my-4" style="font-size: 24px;"><strong>商品登録</strong></div>
+      <form th:action="@{/create}" th:object="${product}" method="post">
+        <div class="form-group mb-3">
+          <label for="name" class="form-label">商品名</label>
+          <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="商品名を入力してください" />
+        </div>
+        <div class="form-group mb-3">
+          <label for="description" class="form-label">詳細</label>
+          <input type="text" class="form-control" id="description" th:field="*{description}" placeholder="商品の説明を入力してください" />
+        </div>
+        <div class="form-group mb-3">
+          <label for="price" class="form-label">価格</label>
+          <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="半角数字を入力してください" />
+        </div>
+        <div class="form-group mb-3">
+          <label for="delivery_date" class="form-label">納品日</label>
+          <input type="date" class="form-control" id="delivery_date" th:field="*{delivery_date}"/>
+        </div>
+        <div class="form-group mb-3">
+          <label for="product_class" class="form-label">商品分類</label>
+          <select th:field="*{product_class}" class="form-control" id="product_class">
+            <option value="商品分類">商品を分類してください</option>
+            <option value="食品">食品</option>
+            <option value="嗜好品">嗜好品</option>
+            <option value="飲料水">飲料水</option>
+            <option value="その他" selected>その他</option>
+          </select>
+        </div>
+        <div class="form-group mb-3">
+          <label for="quantity" class="form-label">数量</label>
+          <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="半角数字を入力してください" />
+        </div>
+        <div class="form-group mb-3">
+          <label for="supplier_name" class="form-label">仕入先名</label>
+          <input type="text" class="form-control" id="supplier_name" th:field="*{supplier_name}" required readonly/>
+        </div>
+        <div class="form-group mb-3">
+          <input type="hidden" class="form-control" id="supplierId" name="supplierId" th:field="*{supplierId}"/>
+        </div>
+
+        <button type="button" class="mt-4 btn btn-primary" data-toggle="modal" data-target="#supplierModal">仕入先選択</button>
+
+        <div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-label="supplierModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="supplierModalLabel">仕入先一覧</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-check" th:each="supplier : ${suppliers}">
+                  <input type="radio" class="form-check-input" name="supplierRadio" th:id="${supplier.id}" th:value="${supplier.name}" th:data-id="${supplier.id}">
+                  <label th:for="${supplier.id}" class="form-check-label" th:text="${supplier.name}"></label>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">閉じる</button>
+                <button type="button" class="btn btn-primary" id="selectSupplier" data-dismiss="modal">選択</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">登録</button>
+          <a class="btn btn-secondary" th:href="@{/products}">戻る</a>
+        </div>
+      </form>
+    </div>
+    <script th:inline="javascript">
+          document.getElementById('selectSupplier').addEventListener('click', () => {
+            let selectRadio = document.querySelector('input[name="supplierRadio"]:checked');
+            if(selectRadio) {
+              let selectSupplierName = selectRadio.value;
+              let selectSupplierId = selectRadio.getAttribute('data-id');
+              document.getElementById('supplier_name').value = selectSupplierName;
+              document.getElementById('supplierId').value = selectSupplierId;
+              $('#supplierModal').modal('hide');
+            } else {
+              alert("エラーが発生しました");
+            }
+          });
+    </script>
+    <script th:replace="layout :: script"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout :: head"></head>
+
+  <body>
+    <div th:insert="layout :: header"></div>
+    <div th:insert="layout :: hamburger"></div>
+    <div th:insert="layout :: sidebar"></div>
+
+    <div class="container">
+      <table class="table table-bordered table-striped mt-5">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>商品名</th>
+          <th>価格</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+          <td th:text="${product.id}"></td>
+          <td th:text="${product.name}"></td>
+          <td th:text="${product.price}"></td>
+          <td>
+            <a class="btn btn-info btn-sm" th:href="@{/product/{id}(id=${product.id})}">詳細</a>
+            <a class="btn btn-warning btn-sm" th:href="@{/product/edit/{id}(id=${product.id})}">編集</a>
+            <button class="btn btn-danger btn-sm" th:data-product-id="${product.id}" onclick="deleteProduct(this)">削除</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="my-4">
+        <a class="btn btn-primary" th:href="@{/create}">追加</a>
+        <a class="btn btn-secondary" th:href="@{/dashboard}">戻る</a>
+      </div>
+    </div>
+
+    <script th:replace="layout :: script"></script>
+    <script src="/javascript/product.js"></script>
+  </body>
+</html>

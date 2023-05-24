@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${username}">Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/layout.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="hamburger-icon" id="hamburgerIcon" th:fragment="hamburger">&#9776;</div>
+
+    <div class="header" id="header" th:fragment="header">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+              <span class="navbar-text">
+                <strong style="font-size: 24px;" th:text="${username}">Dashboard</strong>
+              </span>
+          <a class="nav-link" th:href="@{/login}">ログアウト</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="sidebar" id="sidebar" th:fragment="sidebar">
+      <h3 class="mt-5"><strong>マスタ管理</strong></h3>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/products}">商品管理マスタ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/suppliers}">仕入先管理マスタ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/users}">ユーザ管理マスタ</a>
+        </li>
+      </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="/javascript/layout.js"></script>
+  </body>
+</html>
