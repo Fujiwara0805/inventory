@@ -2,8 +2,6 @@ package in.Inventory_Control.Inventory_Control;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -15,10 +13,13 @@ public class ProductService {
         return ProductRepository.findAll();
     }
 
-    public Product findById(long id){ return ProductRepository.findById(id);}
+    public Product findById(int id){
+        return ProductRepository.findById(id);
+    }
 
     public Product createProduct(Product product) {
-        ProductRepository.insert(product);
+        int id = ProductRepository.insert(product);
+        product.setId(id);
         return product;
     }
 
@@ -27,11 +28,11 @@ public class ProductService {
         return product;
     }
 
-    public void deleteProducts(long id){
+    public void deleteProducts(int id){
         ProductRepository.delete(id);
     }
 
-    public void linkProductToSupplier(Integer productId, Integer supplierId) {
-        ProductRepository.linkProductToSupplier(productId,supplierId);
+    public void linkProductToSupplier(Integer productId, Supplier supplier) {
+        ProductRepository.linkProductToSupplier(productId,supplier.getId());
     }
 }

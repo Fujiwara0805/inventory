@@ -12,22 +12,17 @@ import java.util.Date;
 @Data
 
 public class Product {
-    private Integer id;
+    private int id;
     private String name;
     private String description;
-    private BigDecimal price;
+    private int price;
     private Date delivery_date;
     private String product_class;
-    private Integer quantity;
+    private int quantity;
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    private Integer supplierId;
+    private int supplierId;
+    private Supplier supplier;
 
-    public Integer getSupplierId() {
-        return supplierId;
-    }
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
 }

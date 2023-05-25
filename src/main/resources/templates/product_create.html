@@ -8,7 +8,7 @@
 
     <div class="container">
       <div class="my-4" style="font-size: 24px;"><strong>商品登録</strong></div>
-      <form th:action="@{/create}" th:object="${product}" method="post">
+      <form th:action="@{/product/create}" th:object="${product}" method="post">
         <div class="form-group mb-3">
           <label for="name" class="form-label">商品名</label>
           <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="商品名を入力してください" />
@@ -41,13 +41,12 @@
         </div>
         <div class="form-group mb-3">
           <label for="supplier_name" class="form-label">仕入先名</label>
-          <input type="text" class="form-control" id="supplier_name" th:field="*{supplier_name}" required readonly/>
+          <input type="text" class="form-control" id="supplier_name" required readonly/>
         </div>
-        <div class="form-group mb-3">
-          <input type="hidden" class="form-control" id="supplierId" name="supplierId" th:field="*{supplierId}"/>
-        </div>
-
         <button type="button" class="mt-4 btn btn-primary" data-toggle="modal" data-target="#supplierModal">仕入先選択</button>
+        <div class="form-group mb-3">
+          <input type="hidden" id="supplierId" name="supplierId"/>
+        </div>
 
         <div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-label="supplierModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">

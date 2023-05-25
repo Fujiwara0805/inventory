@@ -15,6 +15,8 @@
             <tr>
                 <th>id</th>
                 <th>メーカー名</th>
+                <th>住所</th>
+                <th>メールアドレス</th>
                 <th>電話番号</th>
                 <th>操作</th>
             </tr>
@@ -23,6 +25,8 @@
             <tr th:each="supplier : ${suppliers}" th:href="@{'/suppliers/' + ${supplier.id}}">
                 <td th:text="${supplier.id}"></td>
                 <td th:text="${supplier.name}"></td>
+                <td th:text="${supplier.address}"></td>
+                <td th:text="${supplier.email}"></td>
                 <td th:text="${supplier.phone}"></td>
                 <td>
                     <a class="btn btn-info btn-sm" th:href="@{/supplier/{id}(id=${supplier.id})}">詳細</a>

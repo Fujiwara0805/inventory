@@ -36,7 +36,7 @@ public class ProductController {
     }
 
     // 商品登録画面
-    @GetMapping("/create")
+    @GetMapping("/product/create")
     public String showCreateProductPage(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("suppliers", supplierService.getAllSuppliers());
@@ -45,11 +45,12 @@ public class ProductController {
     }
 
     // 商品登録
-    @PostMapping("/create")
-    public String createProduct(@ModelAttribute Product product, Model model) {
+    @PostMapping("/product/create")
+    public String createProduct(@ModelAttribute Product product, @RequestParam("supplierId") int supplierId, Model model) {
         Product newProduct = productService.createProduct(product);
         if (newProduct != null) {
-            productService.linkProductToSupplier(newProduct.getId(), product.getSupplierId());
+            Supplier supplier = supplierService.findById(supplierId);
+            productService.linkProductToSupplier(newProduct.getId(), supplier);
             return "redirect:/products";
         } else {
             model.addAttribute("errorMessage", "商品登録に失敗しました。もう一度お試しください");
@@ -106,6 +107,5 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
 
