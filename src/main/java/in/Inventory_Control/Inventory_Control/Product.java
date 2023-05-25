@@ -18,37 +18,16 @@ public class Product {
     private BigDecimal price;
     private Date delivery_date;
     private String product_class;
-    private String supplier_name;
     private Integer quantity;
     private Timestamp created_at;
     private Timestamp updated_at;
-    private Integer supplierId = 0;
-    private String supplierName;
 
-    private String errorMessage;
+    private Integer supplierId;
 
-    public int getSupplierId(){
+    public Integer getSupplierId() {
         return supplierId;
     }
-
     public void setSupplierId(Integer supplierId) {
         this.supplierId = supplierId;
     }
-
-    public String getSupplierName(){
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage() {
-        this.errorMessage = errorMessage;
-    }
-
 }

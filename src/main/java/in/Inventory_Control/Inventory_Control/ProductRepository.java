@@ -10,7 +10,7 @@ public interface ProductRepository {
     @Select("SELECT * FROM Products WHERE id = #{id}")
     Product findById(long id);
 
-    @Insert("INSERT INTO Products(name, description, price, delivery_date, product_class, supplier_name, quantity) VAlUES(#{name}, #{description}, #{price}, #{delivery_date}, #{product_class},　#{supplier_name} #{quantity})")
+    @Insert("INSERT INTO Products(name, description, price, delivery_date, product_class, supplier_name, quantity) VAlUES(#{name}, #{description}, #{price}, #{delivery_date}, #{product_class},#{supplier_name}, #{quantity})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(Product product);
 

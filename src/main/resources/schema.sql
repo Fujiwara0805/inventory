@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Product_Suppliers;
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Suppliers;
+
 CREATE TABLE IF NOT EXISTS Users (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) UNIQUE,
@@ -12,8 +17,7 @@ CREATE TABLE IF NOT EXISTS Products (
     description TEXT,
     price DECIMAL(12,0),
     delivery_date DATE,
-    product_class ENUM(' ','食品', '嗜好品', '飲料水', 'その他'),
-    supplier_name VARCHAR(255),
+    product_class ENUM('食品', '嗜好品', '飲料水', 'その他'),
     quantity INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
