@@ -25,6 +25,9 @@ public interface SupplierRepository {
     @Delete("DELETE FROM Suppliers WHERE id = #{id}")
     void delete(int id);
 
+    @Delete("DELETE FROM product_suppliers WHERE supplier_id = #{id}")
+    void deleteProductSupplierRelations(int id);
+
     @Select("SELECT * FROM Products INNER JOIN product_suppliers ON (Products.id = product_suppliers.product_id) WHERE product_suppliers.supplier_id = #{supplier.Id}")
     List<Product> findProductsBySupplierId(Integer id);
 }

@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS Products (
     name VARCHAR(255),
     description TEXT,
     price DECIMAL(12,0),
-    delivery_date DATE,
     product_class ENUM('食品', '嗜好品', '飲料水', 'その他'),
     quantity INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

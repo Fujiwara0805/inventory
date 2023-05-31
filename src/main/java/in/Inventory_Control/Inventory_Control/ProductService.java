@@ -18,8 +18,7 @@ public class ProductService {
     }
 
     public Product createProduct(Product product) {
-        int id = ProductRepository.insert(product);
-        product.setId(id);
+        ProductRepository.insert(product);
         return product;
     }
 
@@ -29,6 +28,7 @@ public class ProductService {
     }
 
     public void deleteProducts(int id){
+        ProductRepository.deleteProductSupplierRelations(id);
         ProductRepository.delete(id);
     }
 

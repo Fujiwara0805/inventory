@@ -1,7 +1,6 @@
-(() => {
-  function deleteSupplier(element) {
+function deleteSupplier(element) {
     const id = element.getAttribute('data-supplier-id');
-    if(confirm('ユーザを削除してもよろしいですか？')) {
+    if(confirm('仕入先を削除してもよろしいですか？')) {
         fetch(`/supplier/delete/${id}`, {
             method: "DELETE"
         }).then(response => {
@@ -13,5 +12,4 @@
             }
         });
     }
-  }
-})();
+}
