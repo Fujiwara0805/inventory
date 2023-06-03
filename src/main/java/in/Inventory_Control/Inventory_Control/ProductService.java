@@ -35,4 +35,8 @@ public class ProductService {
     public void linkProductToSupplier(Integer productId, Supplier supplier) {
         ProductRepository.linkProductToSupplier(productId,supplier.getId());
     }
+
+    public List<Product> findByName(String name){
+        return ProductRepository.findByName(name);
+    }
 }

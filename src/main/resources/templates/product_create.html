@@ -32,6 +32,10 @@
           </select>
         </div>
         <div class="form-group mb-3">
+          <label for="delivery_date" class="form-label">配達日</label>
+          <input type="date" class="form-control" id="delivery_date" name="delivery_date" th:field="*{delivery_date}" />
+        </div>
+        <div class="form-group mb-3">
           <label for="quantity" class="form-label">数量</label>
           <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="半角数字を入力してください" />
         </div>
@@ -72,20 +76,7 @@
         </div>
       </form>
     </div>
-    <script th:inline="javascript">
-          document.getElementById('selectSupplier').addEventListener('click', () => {
-            let selectRadio = document.querySelector('input[name="supplierRadio"]:checked');
-            if(selectRadio) {
-              let selectSupplierName = selectRadio.value;
-              let selectSupplierId = selectRadio.getAttribute('data-id');
-              document.getElementById('supplier_name').value = selectSupplierName;
-              document.getElementById('supplierId').value = selectSupplierId;
-              $('#supplierModal').modal('hide');
-            } else {
-              alert("エラーが発生しました");
-            }
-          });
-    </script>
+    <script src="/javascript/modal.js/"></script>
     <script th:replace="layout :: script"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

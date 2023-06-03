@@ -1,4 +1,5 @@
-(() => {
+'use strict'
+{
     window.addEventListener('DOMContentLoaded', function() {
         const hamburgerIcon = document.getElementById('hamburgerIcon');
         const sidebar = document.getElementById('sidebar');
@@ -16,4 +17,4 @@
             }
         });
     });
-})();
+}

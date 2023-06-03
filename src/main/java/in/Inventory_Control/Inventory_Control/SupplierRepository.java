@@ -1,7 +1,6 @@
 package in.Inventory_Control.Inventory_Control;
 
 import org.apache.ibatis.annotations.*;
-
 import java.util.List;
 
 @Mapper

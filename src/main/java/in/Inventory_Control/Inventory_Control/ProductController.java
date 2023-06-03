@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class ProductController {
     @Autowired
@@ -32,7 +34,20 @@ public class ProductController {
     public String getAllProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("username", "商品一覧画面");
+        model.addAttribute("isSearchResult", false);
+        model.addAttribute("returnUrl", "/dashboard");
         return "/products";
+    }
+
+    // 検索画面
+    @GetMapping("/product/search")
+    public String searchProduct(@RequestParam("name") String name, Model model) {
+        List<Product> products =  productService.findByName(name);
+        model.addAttribute("products", products);
+        model.addAttribute("username", "商品検索結果");
+        model.addAttribute("isSearchResult",true);
+        model.addAttribute("returnUrl", "/products");
+        return "products";
     }
 
     // 商品登録画面
