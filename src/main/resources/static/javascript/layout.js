@@ -6,12 +6,12 @@
         const mainContent = document.querySelector('.container');
 
         sidebar.classList.add('visible');
-        mainContent.style.marginLeft = '200px';
+        mainContent.style.marginLeft = '220px';
 
         hamburgerIcon.addEventListener('click', () => {
             sidebar.classList.toggle('visible');
             if(sidebar.classList.contains('visible')) {
-                mainContent.style.marginLeft = '200px';
+                mainContent.style.marginLeft = '220px';
             } else {
                 mainContent.style.marginLeft = '50px';
             }

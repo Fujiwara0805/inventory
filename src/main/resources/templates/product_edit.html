@@ -6,33 +6,46 @@
   <div th:insert="layout :: hamburger"></div>
   <div th:insert="layout :: sidebar"></div>
 
-  <div class="container">
-    <div class="mt-3">
-      <strong style="font-size: 24px;">商品編集画面</strong>
+  <div class="container my-4 py-5">
+    <div class="col-md-10">
+      <form th:action="@{/product/update/{id}(id=${product.id})}" th:object="${product}" method="post" class="mt-2">
+        <input type="hidden" th:field="*{id}" />
+        <div class="mb-3 mt-4">
+          <label for="name" class="form-label">商品名</label>
+          <input type="text" class="form-control" id="name" th:field="*{name}" />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">詳細</label>
+          <input type="text" class="form-control" id="description" th:field="*{description}" />
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">単価(円)</label>
+          <input type="number" class="form-control" id="price" th:field="*{price}" />
+        </div>
+        <div class="mb-3">
+          <label for="quantity" class="form-label">数量(個)</label>
+          <input type="number" class="form-control" id="quantity" th:field="*{quantity}" />
+        </div>
+        <div class="mb-3">
+          <label for="delivery_date" class="form-label">入荷日</label>
+          <input type="date" class="form-control" id="delivery_date" th:field="*{delivery_date}" />
+        </div>
+        <div class="mb-3">
+          <label for="product_class" class="form-label">商品分類</label>
+          <select th:field="*{product_class}" class="form-control" id="product_class">
+            <option value="食品">食品</option>
+            <option value="嗜好品">嗜好品</option>
+            <option value="飲料水">飲料水</option>
+            <option value="その他" selected>その他</option>
+          </select>
+        </div>
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary">更新</button>
+          <a class="btn btn-secondary" th:href="@{/products}">戻る</a>
+        </div>
+      </form>
     </div>
-    <form th:action="@{/product/update/{id}(id=${product.id})}" th:object="${product}" method="post" class="mt-2">
-      <input type="hidden" th:field="*{id}" />
-      <div class="mb-3">
-        <label for="name" class="form-label">商品名</label>
-        <input type="text" class="form-control" id="name" th:field="*{name}" />
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">詳細</label>
-        <input type="text" class="form-control" id="description" th:field="*{description}" />
-      </div>
-      <div class="mb-3">
-        <label for="price" class="form-label">価格</label>
-        <input type="number" class="form-control" id="price" th:field="*{price}" />
-      </div>
-      <div class="mb-3">
-        <label for="quantity" class="form-label">数量</label>
-        <input type="number" class="form-control" id="quantity" th:field="*{quantity}" />
-      </div>
-      <div class="mt-4">
-        <button type="submit" class="btn btn-primary">更新</button>
-        <a class="btn btn-secondary" th:href="@{/products}">戻る</a>
-      </div>
-    </form>
+
   </div>
   <script th:replace="layout :: script"></script>
 </body>

@@ -3,7 +3,9 @@ package in.Inventory_Control.Inventory_Control;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -40,4 +42,25 @@ public class UserService {
     public void deleteUser(long id){
         userRepository.delete(id);
     }
+
+    public List<User> findByName(String username, Integer page, Integer size){
+        int offset = (page - 1) * size;
+        return userRepository.findByName(username, offset, size);
+    }
+
+    public Optional<Long> countByName(String username){
+        return userRepository.countByName(username);
+    }
+
+    public List<User> getAllUsers(Integer page, Integer size){
+        int offset = (page - 1) * size;
+        List<User> users = userRepository.findUsersAll(offset,size);
+        return users != null ? users : new ArrayList<>();
+    }
+
+    public Optional<Long> getTotalUsers() {
+        return userRepository.count();
+    }
+
+
 }

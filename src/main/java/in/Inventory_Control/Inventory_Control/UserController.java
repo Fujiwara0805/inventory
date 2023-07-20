@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -18,7 +19,7 @@ public class UserController {
     @GetMapping("/register")
     public String showRegisterPage(Model model){
         model.addAttribute("user",new User());
-        model.addAttribute("username", "新規登録画面");
+        model.addAttribute("title", "新規登録画面");
         return "register";
     }
 
@@ -39,7 +40,7 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("username", "ログイン画面");
+        model.addAttribute("title", "ログイン画面");
         return "login";
     }
 
@@ -61,12 +62,42 @@ public class UserController {
 
 //  一覧画面
     @GetMapping("/users")
-    public String showAllUsers(Model model) {
-        List<User> users = userService.getAllUsers();
+    public String showAllUsers(Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "5")Integer size) {
+        List<User> users = userService.getAllUsers(page, size);
+        Optional<Long> totalUsers = userService.getTotalUsers();
+        int totalPages = 0;
+        if(totalUsers.isPresent() && size != null && size != 0){
+            totalPages = (int)Math.ceil((double)totalUsers.get() /size);
+        }
         model.addAttribute("users", users);
-        model.addAttribute("username", "ユーザ一覧画面");
+        model.addAttribute("title", "ユーザ一覧画面");
+        model.addAttribute("isSearchResult", false);
+        model.addAttribute("returnUrl", "/dashboard");
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page != null ? page : 1);
+        model.addAttribute("currentPages", page);
+        return "/users";
+    }
+
+    // 検索画面
+    @GetMapping("/user/search")
+    public String searchUser(@RequestParam("username") String username, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "5") Integer size) {
+        List<User> users = userService.findByName(username, page, size);
+        Optional<Long> totalUsers = userService.countByName(username);
+        int totalPages = 0;
+        if (totalUsers.isPresent() && size != null && size != 0) {
+            totalPages = (int)Math.ceil((double) totalUsers.get() / size);
+        }
+        model.addAttribute("users", users);
+        model.addAttribute("title", "ユーザ検索結果");
+        model.addAttribute("isSearchResult",true);
+        model.addAttribute("returnUrl", "/users");
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page != null ? page : 1);
+        model.addAttribute("currentPages", page);
         return "users";
     }
+
 
 //  詳細画面
     @GetMapping("/user/{id}")
@@ -74,7 +105,7 @@ public class UserController {
         User user = userService.findById(id);
         if (user != null) {
             model.addAttribute("user", user);
-            model.addAttribute("username", "ユーザ詳細画面");
+            model.addAttribute("title", "ユーザ詳細画面");
             return "user_detail";
         } else {
             return "redirect:/users";
@@ -87,7 +118,7 @@ public class UserController {
         User user = userService.findById(id);
         if (user != null) {
             model.addAttribute("user", user);
-            model.addAttribute("username", "ユーザ編集画面");
+            model.addAttribute("title", "ユーザ編集画面");
             return "user_edit";
         } else {
             return "redirect:/users";

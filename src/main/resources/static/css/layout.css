@@ -15,7 +15,7 @@ body {
     height: 100vh;
     position: fixed;
     top: 0;
-    left: -200px;
+    left: -220px;
     background-color: skyblue;
     padding: 30px 15px;
     z-index: 2;
@@ -52,7 +52,38 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
+
 .nav-link {
     margin-left: auto;
     font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        left: -100%;
+        transition: left 0.5s ease;
+    }
+
+    .sidebar.visible {
+        left: 0;
+    }
+
+    .container.sidebar-open {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 769px) {
+    .sidebar {
+        left: -220px;
+        transition: left 0.3s;
+    }
+
+    .sidebar.visible {
+        left: 0;
+    }
+
+    .container.sidebar-open {
+        margin-left: 200px;
+    }
 }

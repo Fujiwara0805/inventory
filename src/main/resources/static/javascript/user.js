@@ -1,5 +1,4 @@
 'use strict'
-{
     function deleteUser(element) {
         const id = element.getAttribute('data-user-id');
             if(confirm('ユーザを削除してもよろしいですか？')) {
@@ -15,4 +14,4 @@
                 });
         }
     }
-}
+

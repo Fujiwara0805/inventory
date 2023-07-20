@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import java.lang.Math;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -25,28 +26,45 @@ public class ProductController {
     //ダッシュボード画面
     @GetMapping("/dashboard")
     public String showDashboardPage(Model model) {
-        model.addAttribute("username", "Dashboard");
+        model.addAttribute("title", "Dashboard");
         return "dashboard";
     }
 
     // 商品一覧
     @GetMapping("/products")
-    public String getAllProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("username", "商品一覧画面");
+    public String displayAllProducts(Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "5") Integer size) {
+        List<Product> products = productService.getAllProducts(page, size);
+        Optional<Long> totalProducts = productService.getTotalProducts();
+        int totalPages = 0;
+        if (totalProducts.isPresent() && size != null && size != 0) {
+            totalPages = (int)Math.ceil((double) totalProducts.get() / size);
+        }
+        model.addAttribute("products", products);
+        model.addAttribute("title", "在庫一覧画面");
         model.addAttribute("isSearchResult", false);
         model.addAttribute("returnUrl", "/dashboard");
-        return "/products";
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page != null ? page : 1);
+        model.addAttribute("currentPages", page);
+        return "products";
     }
 
     // 検索画面
     @GetMapping("/product/search")
-    public String searchProduct(@RequestParam("name") String name, Model model) {
-        List<Product> products =  productService.findByName(name);
+    public String searchProduct(@RequestParam("name") String name, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "5") Integer size) {
+        List<Product> products = productService.findByName(name, page, size);
+        Optional<Long> totalProducts = productService.countByName(name);
+        int totalPages = 0;
+        if (totalProducts.isPresent() && size != null && size != 0) {
+            totalPages = (int)Math.ceil((double) totalProducts.get() / size);
+        }
         model.addAttribute("products", products);
-        model.addAttribute("username", "商品検索結果");
+        model.addAttribute("title", "商品検索結果");
         model.addAttribute("isSearchResult",true);
         model.addAttribute("returnUrl", "/products");
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page != null ? page : 1);
+        model.addAttribute("currentPages", page);
         return "products";
     }
 
@@ -55,7 +73,7 @@ public class ProductController {
     public String showCreateProductPage(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("suppliers", supplierService.getAllSuppliers());
-        model.addAttribute("username", "商品登録画面");
+        model.addAttribute("title", "商品登録画面");
         return "product_create";
     }
 
@@ -79,7 +97,7 @@ public class ProductController {
         Product product = productService.findById(id);
         if (product != null) {
             model.addAttribute("product", product);
-            model.addAttribute("username", "商品詳細画面");
+            model.addAttribute("title", "商品詳細画面");
             return "product_detail";
         } else {
             return "redirect:/products";
@@ -92,7 +110,7 @@ public class ProductController {
         Product product = productService.findById(id);
         if (product != null) {
             model.addAttribute("product", product);
-            model.addAttribute("username", "商品編集画面");
+            model.addAttribute("title", "商品編集画面");
             return "product_edit";
         } else {
             return "redirect:/products";

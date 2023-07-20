@@ -1,5 +1,4 @@
 'use strict'
-{
     function deleteProduct(element) {
         const id = element.getAttribute('data-product-id');
         if(confirm('商品を削除してもよろしいですか？')) {
@@ -15,4 +14,3 @@
             });
         }
     }
-}

@@ -6,48 +6,61 @@
     <div th:insert="layout :: hamburger"></div>
     <div th:insert="layout :: sidebar"></div>
 
-    <div class="container">
-      <div class="my-4" style="font-size: 24px;"><strong>商品登録</strong></div>
+    <div class="container mt-5">
       <form th:action="@{/product/create}" th:object="${product}" method="post">
-        <div class="form-group mb-3">
-          <label for="name" class="form-label">商品名</label>
-          <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="商品名を入力してください" />
+        <div class="my-2 py-3">
+          <button type="submit" class="btn btn-primary">登録</button>
+          <a class="btn btn-secondary" th:href="@{/products}">戻る</a>
         </div>
-        <div class="form-group mb-3">
-          <label for="description" class="form-label">詳細</label>
-          <input type="text" class="form-control" id="description" th:field="*{description}" placeholder="商品の説明を入力してください" />
-        </div>
-        <div class="form-group mb-3">
-          <label for="price" class="form-label">価格</label>
-          <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="半角数字を入力してください" />
-        </div>
-        <div class="form-group mb-3">
-          <label for="product_class" class="form-label">商品分類</label>
-          <select th:field="*{product_class}" class="form-control" id="product_class">
-            <option value="商品分類">商品を分類してください</option>
-            <option value="食品">食品</option>
-            <option value="嗜好品">嗜好品</option>
-            <option value="飲料水">飲料水</option>
-            <option value="その他" selected>その他</option>
-          </select>
-        </div>
-        <div class="form-group mb-3">
-          <label for="delivery_date" class="form-label">配達日</label>
-          <input type="date" class="form-control" id="delivery_date" name="delivery_date" th:field="*{delivery_date}" />
-        </div>
-        <div class="form-group mb-3">
-          <label for="quantity" class="form-label">数量</label>
-          <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="半角数字を入力してください" />
-        </div>
-        <div class="form-group mb-3">
-          <label for="supplier_name" class="form-label">仕入先名</label>
-          <input type="text" class="form-control" id="supplier_name" required readonly/>
-        </div>
-        <button type="button" class="mt-4 btn btn-primary" data-toggle="modal" data-target="#supplierModal">仕入先選択</button>
-        <div class="form-group mb-3">
-          <input type="hidden" id="supplierId" name="supplierId"/>
-        </div>
+        <div class="row mt-3">
+          <div class="col-md-5">
+            <div class="form-group mb-3">
+              <label for="name" class="form-label">商品名</label>
+              <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="商品名を入力してください" />
+            </div>
+            <div class="form-group mb-3">
+              <label for="description" class="form-label">詳細</label>
+              <input type="text" class="form-control" id="description" th:field="*{description}" placeholder="商品の説明を入力してください" />
+            </div>
+            <div class="form-group mb-3">
+              <label for="price" class="form-label">単価(円)</label>
+              <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="半角数字を入力してください" />
+            </div>
+            <div class="form-group mb-3">
+              <label for="product_class" class="form-label">商品分類</label>
+              <select th:field="*{product_class}" class="form-control" id="product_class">
+                <option value="商品分類">--商品を分類してください--</option>
+                <option value="食品">食品</option>
+                <option value="嗜好品">嗜好品</option>
+                <option value="飲料水">飲料水</option>
+                <option value="その他" selected>その他</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group mb-3">
+              <label for="delivery_date" class="form-label">入荷日</label>
+              <input type="date" class="form-control" id="delivery_date" name="delivery_date" th:field="*{delivery_date}" />
+            </div>
+            <div class="form-group mb-3">
+              <label for="quantity" class="form-label">数量（個）</label>
+              <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="半角数字を入力してください" />
+            </div>
 
+            <div class="form-group row">
+              <div class="col-md-8 mb-3">
+                <label for="supplier_name" class="form-label">仕入先名</label>
+                <input type="text" class="form-control" id="supplier_name" required readonly/>
+              </div>
+              <div class="col-md-4 align-self-end">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#supplierModal">仕入先選択</button>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <input type="hidden" id="supplierId" name="supplierId"/>
+            </div>
+          </div>
+        </div>
         <div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-label="supplierModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -69,10 +82,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <button type="submit" class="btn btn-primary">登録</button>
-          <a class="btn btn-secondary" th:href="@{/products}">戻る</a>
         </div>
       </form>
     </div>

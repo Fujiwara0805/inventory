@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SupplierController {
@@ -21,9 +22,39 @@ public class SupplierController {
 
 //  仕入先一覧
     @GetMapping("/suppliers")
-    public String getAllSuppliers(Model model) {
-        model.addAttribute("suppliers",supplierService.getAllSuppliers());
-        model.addAttribute("username", "仕入先一覧画面");
+    public String getAllSuppliers(Model model, @RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "5")Integer size) {
+        List<Supplier> suppliers = supplierService.getAllSuppliers(page, size);
+        Optional<Long> totalSuppliers = supplierService.getTotalSuppliers();
+        int totalPages = 0;
+        if(totalSuppliers.isPresent() && size != null && size != 0) {
+            totalPages = (int)Math.ceil((double)totalSuppliers.get() / size);
+        }
+        model.addAttribute("suppliers", suppliers);
+        model.addAttribute("title", "仕入先一覧画面");
+        model.addAttribute("isSearchResult", false);
+        model.addAttribute("returnUrl", "/dashboard");
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page != null ? page : 1);
+        model.addAttribute("currentPages", page);
+        return "/suppliers";
+    }
+
+    // 検索画面
+    @GetMapping("/suppliers/search")
+    public String searchSupplier(@RequestParam("name") String name, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "5") Integer size) {
+        List<Supplier> suppliers = supplierService.findByName(name, page, size);
+        Optional<Long> totalSuppliers = supplierService.countByName(name);
+        int totalPages = 0;
+        if (totalSuppliers.isPresent() && size != null && size != 0) {
+            totalPages = (int)Math.ceil((double) totalSuppliers.get() / size);
+        }
+        model.addAttribute("suppliers", suppliers);
+        model.addAttribute("title", "仕入先検索結果");
+        model.addAttribute("isSearchResult",true);
+        model.addAttribute("returnUrl", "/suppliers");
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page != null ? page : 1);
+        model.addAttribute("currentPages", page);
         return "/suppliers";
     }
 
@@ -31,7 +62,7 @@ public class SupplierController {
     @GetMapping("/suppliers/create")
     public String showCreatePage(Model model) {
         model.addAttribute("supplier", new Supplier());
-        model.addAttribute("username", "仕入先登録画面");
+        model.addAttribute("title", "仕入先登録画面");
         return "supplier_create";
     }
 
@@ -55,7 +86,7 @@ public class SupplierController {
             model.addAttribute("supplier",supplier);
             List<Product> products = supplierService.getProductsBySupplierId(id);
             model.addAttribute("products",products);
-            model.addAttribute("username", "仕入先詳細画面");
+            model.addAttribute("title", "仕入先詳細画面");
             return "supplier_detail";
         } else {
             return "redirect:/suppliers";
@@ -68,7 +99,7 @@ public class SupplierController {
         Supplier supplier = supplierService.findById(id);
         if(supplier != null) {
             model.addAttribute("supplier", supplier);
-            model.addAttribute("username", "仕入先編集画面");
+            model.addAttribute("title", "仕入先編集画面");
             return "supplier_edit";
         } else {
             return "redirect:/suppliers";
